@@ -19,24 +19,18 @@ linksInternos.forEach((link) => {
 const sections = document.querySelectorAll('main section');
 
 function animaTitulo() {
+  const items = document.querySelectorAll('.menu li a');
   sections.forEach((section) => {
     const topo = section.getBoundingClientRect().top - window.innerHeight * 0.6;
     if (topo < 0) {
       section.classList.add('ativo')
+      items.forEach(item => item.classList.remove('ativo'))
+      document.querySelector(`a[href="#${section.id}"]`).classList.add('ativo')
     } else {
       section.classList.remove('ativo')
+      document.querySelector(`a[href="#${section.id}"]`).classList.remove('ativo')
     }
   })
 }
 
 window.addEventListener('scroll', animaTitulo)
-
-function activeClassMenu() {
-  const items = document.querySelectorAll('.menu li a');
-  items.forEach((item) => {
-    const section = document.querySelector(item.getAttribute('href'))
-    
-  })
-}
-
-window.addEventListener('scroll', activeClassMenu)

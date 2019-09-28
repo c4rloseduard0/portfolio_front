@@ -108,7 +108,7 @@ header {
   border-radius: 10px;
 }
 
-.menu li a:hover {
+.menu li a:hover, .menu li a.ativo {
   background-color: #fc0;
   color: #2b2b2b;
 }
@@ -139,7 +139,7 @@ main h2 {
   color: #fff;
 }
 
-.ativo {
+section.ativo {
   animation: aparecer 1s ease;
 }
 
