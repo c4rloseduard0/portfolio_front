@@ -51,15 +51,39 @@ const slideFilhos = [...slide.children].map((element) => {
   }
 })
 
+const index = {
+  prev: 0,
+  atual: 0,
+  next: 0,
+}
+
+function slideIndexNav(i) {
+  const last = slideFilhos.length - 1;
+  index.prev = i ? i - 1 : undefined
+  index.atual = i
+  index.next = i === last ? undefined : i + 1
+  console.log(index);
+}
+
 function centralizarSlide(el) {
   const margin = (wrapper.offsetWidth - el.offsetWidth) / 2;
-  console.log(wrapper.offsetWidth, el.offsetWidth, el.offsetLeft);
-
   return -(el.offsetLeft - margin)
 }
 
+function irProProximo() {
+  if(index.next !== undefined) {
+    mudaSlide(index.next)
+  }
+}
+
+function irProAnterior() {
+  if(index.prev !== undefined) {
+    mudaSlide(index.prev)
+  }
+}
+
 function updatePosition(clientX) {
-  distMove.distancia =( distMove.posicaoInicial - clientX) * 1.6;
+  distMove.distancia = ( distMove.posicaoInicial - clientX) * 1.6;
   return distMove.posicaoFinal - distMove.distancia
 }
 
@@ -68,8 +92,12 @@ function moveSlide(x) {
   slide.style.transform = `translate3d(${x}px, 0, 0)`
 }
 
-function mudaSlide(index) {
-  moveSlide(slideFilhos[index].position)
+function mudaSlide(i) {
+  moveSlide(slideFilhos[i].position)
+  distMove.posicaoFinal = slideFilhos[i].position
+  slideIndexNav(i)
+  slideFilhos.forEach((item) => {item.element.classList.remove('ativo')})
+  slideFilhos[index.atual].element.classList.add('ativo')
 }
 
 function iniciaMouseClick(e) {
@@ -80,6 +108,15 @@ function iniciaMouseClick(e) {
 
 function terminaMouseClick() {
   distMove.posicaoFinal = distMove.movePosition;
+  if(distMove.distancia > 120 && index.next !== undefined) {
+    console.log(distMove);
+    irProProximo()
+  } else if(distMove.distancia < -120 && index.prev !== undefined) {
+    console.log(distMove);
+    irProAnterior()
+  } else {
+    mudaSlide(index.atual)
+  }
   wrapper.removeEventListener('mousemove', iniciaMouseMove)
 }
 
@@ -88,6 +125,23 @@ function iniciaMouseMove(e) {
   moveSlide(posicaoFinal)
 }
 
+function criarControles() {
+  const control = document.createElement('ul');
+  control.dataset.control = 'slide'
+  slideFilhos.forEach((item, i) => {
+    control.innerHTML += `<li><a href="#${i + 1}">${i + 1}</a></li>`
+  })
+  wrapper.appendChild(control)
+}
+
+  // let contaSlide = 0
+  // const intervaloMov = setInterval(() => {
+  //   mudaSlide(contaSlide)
+  //   contaSlide++
+  //   if(contaSlide > 5) contaSlide = 0
+  // }, 2000)
+mudaSlide(0)
+criarControles()
 iniciaMouseMove = iniciaMouseMove.bind(slide)
 
 wrapper.addEventListener('mousedown', iniciaMouseClick.bind(slide))
