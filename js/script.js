@@ -134,12 +134,12 @@ function criarControles() {
   wrapper.appendChild(control)
 }
 
-  // let contaSlide = 0
-  // const intervaloMov = setInterval(() => {
-  //   mudaSlide(contaSlide)
-  //   contaSlide++
-  //   if(contaSlide > 5) contaSlide = 0
-  // }, 2000)
+  let contaSlide = 0
+  const intervaloMov = setInterval(() => {
+    mudaSlide(contaSlide)
+    contaSlide++
+    if(contaSlide > 5) contaSlide = 0
+  }, 2000)
 mudaSlide(0)
 criarControles()
 iniciaMouseMove = iniciaMouseMove.bind(slide)
