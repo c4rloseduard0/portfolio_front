@@ -26,7 +26,7 @@ function animaTitulo() {
       section.classList.add('ativo')
       items.forEach(item => item.classList.remove('ativo'))
       document.querySelector(`a[href="#${section.id}"]`).classList.add('ativo')
-    } else {
+    } else if(section.getBoundingClientRect().top > window.innerHeight) {
       section.classList.remove('ativo')
       // document.querySelector(`a[href="#${section.id}"]`).classList.remove('ativo')
     }
@@ -38,7 +38,6 @@ window.addEventListener('scroll', animaTitulo)
 // slide
 const wrapper = document.querySelector('#portfolio .conteudo')
 const slide = document.querySelector('.slide')
-console.log(slide.children);
 const distMove = {
   posicaoInicial: 0,
   posicaoFinal: 0,
@@ -62,7 +61,6 @@ function slideIndexNav(i) {
   index.prev = i ? i - 1 : undefined
   index.atual = i
   index.next = i === last ? undefined : i + 1
-  console.log(index);
 }
 
 function centralizarSlide(el) {
@@ -109,10 +107,8 @@ function iniciaMouseClick(e) {
 function terminaMouseClick() {
   distMove.posicaoFinal = distMove.movePosition;
   if(distMove.distancia > 120 && index.next !== undefined) {
-    console.log(distMove);
     irProProximo()
   } else if(distMove.distancia < -120 && index.prev !== undefined) {
-    console.log(distMove);
     irProAnterior()
   } else {
     mudaSlide(index.atual)
@@ -129,10 +125,13 @@ function criarControles() {
   const control = document.createElement('ul');
   control.dataset.control = 'slide'
   slideFilhos.forEach((item, i) => {
-    control.innerHTML += `<li><a href="#${i + 1}">${i + 1}</a></li>`
+    control.innerHTML += `<li><a href="#slide${i + 1}">${i + 1}</a></li>`
   })
   wrapper.appendChild(control)
 }
+
+const controle = document.querySelectorAll('[data-control="slide"] li')
+console.log(controle);
 
   let contaSlide = 0
   const intervaloMov = setInterval(() => {
