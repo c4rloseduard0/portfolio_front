@@ -36,6 +36,7 @@ function animaTitulo() {
 window.addEventListener('scroll', animaTitulo)
 
 // slide
+let controlSlideEvent = new Event('controlSlideEvent')
 const wrapper = document.querySelector('#portfolio .conteudo')
 const slide = document.querySelector('.slide')
 const distMove = {
@@ -96,6 +97,7 @@ function mudaSlide(i) {
   slideIndexNav(i)
   slideFilhos.forEach((item) => {item.element.classList.remove('ativo')})
   slideFilhos[index.atual].element.classList.add('ativo')
+  slide.dispatchEvent(controlSlideEvent)
 }
 
 function iniciaMouseClick(e) {
@@ -130,17 +132,33 @@ function criarControles() {
   wrapper.appendChild(control)
 }
 
-const controle = document.querySelectorAll('[data-control="slide"] li')
-console.log(controle);
+function mudaControle(e) {
+  e.preventDefault()
+  controles.forEach((item) => {
+    item.classList.remove('ativo')
+  })
+  controles[index.atual].classList.add('ativo')
+}
 
-  let contaSlide = 0
-  const intervaloMov = setInterval(() => {
-    mudaSlide(contaSlide)
-    contaSlide++
-    if(contaSlide > 5) contaSlide = 0
-  }, 2000)
+// let contaSlide = 0
+// const intervaloMov = setInterval(() => {
+//   mudaSlide(contaSlide)
+//   contaSlide++
+//   if(contaSlide > 5) contaSlide = 0
+// }, 2000)
+
 mudaSlide(0)
 criarControles()
+
+const controles = document.querySelectorAll('[data-control="slide"] li a')
+controles.forEach((item, index) => {
+  item.addEventListener('click', function(e) {
+    e.preventDefault()
+    mudaSlide(index)
+  })
+})
+
+slide.addEventListener('controlSlideEvent', mudaControle)
 iniciaMouseMove = iniciaMouseMove.bind(slide)
 
 wrapper.addEventListener('mousedown', iniciaMouseClick.bind(slide))

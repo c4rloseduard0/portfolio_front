@@ -198,7 +198,7 @@ main h2 {
   text-indent: -99999px;
 }
 
-[data-control="slide"] li.ativo, [data-control="slide"] li a:hover {
+[data-control="slide"] li a.ativo, [data-control="slide"] li a:hover {
   background-color: #fc0;
 }
 
