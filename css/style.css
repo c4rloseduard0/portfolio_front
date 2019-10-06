@@ -1,4 +1,4 @@
-/* CSS RESET */
+  /* CSS RESET */
 * {
   margin: 0;
 	padding: 0;
@@ -300,3 +300,14 @@ form > *:focus {
     transform: translateX(0);
   }
 }
+
+@media (max-width: 768px) {
+  header {
+    display: none;
+  }
+
+  main {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 0px;
+  }

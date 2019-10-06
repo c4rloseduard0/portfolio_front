@@ -130,6 +130,7 @@ function criarControles() {
     control.innerHTML += `<li><a href="#slide${i + 1}">${i + 1}</a></li>`
   })
   wrapper.appendChild(control)
+  console.log(control.children[0].classList.add('ativo'));
 }
 
 function mudaControle(e) {
@@ -147,7 +148,6 @@ function mudaControle(e) {
 //   if(contaSlide > 5) contaSlide = 0
 // }, 2000)
 
-mudaSlide(0)
 criarControles()
 
 const controles = document.querySelectorAll('[data-control="slide"] li a')
@@ -163,3 +163,5 @@ iniciaMouseMove = iniciaMouseMove.bind(slide)
 
 wrapper.addEventListener('mousedown', iniciaMouseClick.bind(slide))
 wrapper.addEventListener('mouseup', terminaMouseClick.bind(slide))
+
+mudaSlide(0)
